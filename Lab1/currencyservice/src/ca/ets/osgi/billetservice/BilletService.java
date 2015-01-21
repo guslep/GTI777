@@ -3,14 +3,14 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
-import javax.json.Json;
-import javax.json.JsonObject;
+import org.json.simple.*;
+
 
 import ca.ets.osgi.billetinterface.IBilletService;
 
 
 public class BilletService implements IBilletService{
-	LinkedList<LiaisonAerienne> listLiaison; 
+	LinkedList<LiaisonAerienne> listLiaison=new LinkedList<>(); 
 	public BilletService() {
 	
 		listLiaison.add(new LiaisonAerienne(1,10,"Montreal","Las Vegas","Montreal Trudeau","Vegas"));
@@ -21,28 +21,26 @@ public class BilletService implements IBilletService{
 	}
 
 	@Override
-	public JsonObject getTravelTicket(Date depart, Date arrive,
+	public String getTravelTicket(Date depart, Date arrive,
 			String villeDepart, String villeArrivee) {
 		// TODO Auto-generated method stub
 		LiaisonAerienne liaison=findFlight(depart, arrive,villeDepart, villeArrivee);
+		JSONObject returnObject=new JSONObject();
 		if(liaison==null){		
-		JsonObject returnObject = Json.createObjectBuilder()
-				  .add("Status", false)				 
-				  .build();
-		
-		return returnObject;
+	
+				  returnObject.put("Status", false);				 
+				
+	
 		}
 		else{
-			JsonObject returnObject = Json.createObjectBuilder()
-					  .add("Status", false)
-					  .add("AeroportDepart", liaison.getAeroportDepart())
-					  .add("AeroportArrive", liaison.getAeroportArrive())
-					  .build();
 			
-			return returnObject;
-		}
+			 returnObject.put("Status", true);
+					   returnObject.put("AeroportDepart", liaison.getAeroportDepart());
+					   returnObject.put("AeroportArrive", liaison.getAeroportArrive());
+					  
+			}
 		
-		
+		return returnObject.toJSONString();
 	}
 
 	private LiaisonAerienne findFlight(Date depart, Date arrive, String villeDepart,

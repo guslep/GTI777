@@ -1,6 +1,13 @@
 package ca.ets.osgicomposedservice;
 import java.io.BufferedReader;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.ParseException;
+import org.json.simple.parser.JSONParser;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -24,7 +31,7 @@ ServiceReference reference3 = context.getServiceReference(IHotelService.class.ge
 service1 = (IInscriptionService) context.getService(reference1);
 service2 = (IBilletService) context.getService(reference2);
 service3 = (IHotelService) context.getService(reference3);
-startComposedService();
+//startComposedService();
 }
 
 private void startComposedService(){
@@ -34,10 +41,15 @@ try{
 System.out.println("Entrer: iteme,ville ");
 while ((s = in.readLine()) != null && s.length() != 0){
 String[] str = s.split(",");
-Double price1= service1.getPrice(str[0]);
-String currency = service3.getCurrency(str[1]);
-Double price2= service2.convert("CAD", currency, price1);
-System.out.println("Le prix de "+str[0]+" est:"+price2+" "+currency);
+SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+Date debut=formatter.parse(str[1]);
+Date fin=formatter.parse(str[1]);
+String price1= service1.createReservation(str[0], debut, fin);
+
+JSONParser parser=new JSONParser();
+JSONObject json = (JSONObject) parser.parse(price1);
+
+//System.out.println("Le prix de "+str[0]+" est:"+price2+" "+currency);
 System.out.println("Entrer: iteme,ville ");
 }
 }catch (Exception e){
