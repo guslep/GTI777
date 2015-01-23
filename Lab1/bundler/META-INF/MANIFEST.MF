@@ -10,3 +10,5 @@ Import-Package: ca.ets.osgi.billetinterface,
  ca.ets.osgi.hotelinterface,
  ca.ets.osgi.inscriptioninterface,
  org.osgi.framework;version="1.3.0"
+Bundle-ClassPath: src/ca/ets/osgicomposedservice/json-simple-1.1.1.jar,
+ .

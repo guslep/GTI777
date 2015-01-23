@@ -31,7 +31,7 @@ ServiceReference reference3 = context.getServiceReference(IHotelService.class.ge
 service1 = (IInscriptionService) context.getService(reference1);
 service2 = (IBilletService) context.getService(reference2);
 service3 = (IHotelService) context.getService(reference3);
-//startComposedService();
+startComposedService();
 }
 
 private void startComposedService(){
